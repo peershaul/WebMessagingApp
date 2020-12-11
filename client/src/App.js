@@ -8,18 +8,11 @@ class App extends Component{
 
   constructor(){
     super();
-    this.state = {page: pages.message}
+    this.state = {page: pages.login}
   }
 
   pageSwitcher(){
     let page = null
-    if(this.state.page === pages.login)
-      page = <Login setter = {this.pageChanger}/>
-    else if(this.state.page === pages.massage)
-      page = <Messager setter = {this.pageChanger}/>
-    else 
-      page = <h1>Error page not found, page number: {this.state.page}</h1>
-
 
     switch(this.state.page){
       case pages.login: 
