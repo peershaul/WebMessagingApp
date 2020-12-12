@@ -2,7 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const fs = require('fs');
 const morgan = require('morgan')
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const { send } = require('process');
 
 const app = express();
 
@@ -30,63 +31,56 @@ app.get('/', (req, res, next) => {
     res.status(200).send({message: "This is the homepage of my API, Hello there"})
 })
 
+
+app.get('/users/:name', (req, res) => {
+    let selected = null
+    console.log("here i amm")
+    users.forEach(user => {
+        if(user.name === req.params.name)
+            selected = user
+    })
+
+    console.log(`requested user: ${req.params.name}`)
+
+    if(selected === null)
+        res.status(404).json({message: 'The user was not found', name: req.params.name})
+
+    res.status(200).json({message: 'The user is found', user: selected})
+})
+
 app.get('/users', (req, res, next) => {
     res.status(200).send(users)
 })
 
-app.get('/users/:id', (req, res, next) => {
-    let respUser = null
+
+app.post('/users/:name', (req, res) => {
+    let check = false 
+    const urlName = req.params.name 
     users.forEach(user => {
-        if(user.id === Number(req.params.id))
-            respUser = user 
-    })
-
-    if(respUser == null)
-        res.status(404).json({message: 'user not found', id: req.params.id, status: 404})
-    else 
-        res.status(200).json(respUser)
-})
-
-
-app.post('/users', urlParser, (req, res, next) => {
-    let body = req.body;
-    if(!body.name)
-        res.status(400).json({message: 'Name attribute does not found'})
-
-    let check = false;
-    let object = null
-    users.forEach(user => {
-        if(user.name === body.name){
-            check = true;
-            object = user 
-        }
+        if(user.name === urlName)
+            check = true
     })
 
     if(check)
-        res.status(200).json({message: 'Already found', body: body, user: object})
+        res.status(400).json({message: 'user is already created', name: urlName})
+    
+    let id;
+    do{
+        check = false
+        id = Math.floor(Math.random() * 100) + 1 
+        users.forEach(user => {
+            if(user.id === id)
+                check = true
+        }) 
+    } while(check)
 
-    else
-    {
-        let id;
-        do
-        {
-            check = false
-            id = Math.floor(Math.random() * 100) + 1
-            users.forEach(user => {
-                if(user.id === id)
-                    check = true
-            })
-        } while (check)
+    let user = {
+        name: urlName,
+        id: id
+    }
 
-
-
-        let newUser = {
-            name: body.name,
-            id : id
-        }
-        users.push(newUser)
-        res.status(200).json({message: 'Every thing is ok', body: body, user: newUser})
-    }       
+    users.push(user)
+    res.status(201).json({message: 'User was successfully created', user: user})
 })
 
 function init(){

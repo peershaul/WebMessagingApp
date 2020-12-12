@@ -40,7 +40,8 @@ class Login extends Component{
                         onFocus = {this.fieldFocus}
                         onBlur = {this.fieldBlur}
                         onKeyUp = {this.fieldEnter}></input>
-                    <button onClick = {this.submit}>Login</button>
+                    <button className = 'login' onClick = {this.login}>Login</button>
+                    <button className = 'sign-up' onClick = {this.create}>Create new user</button>
                 </div>
             </div>
         )
@@ -66,28 +67,54 @@ class Login extends Component{
         }
     }
 
-    submit =  async () => {
-        let user = {
-            name: document.getElementById('login-container').querySelector('input').value
-        }
-
+    login =  async () => {
+        let name = document.getElementById('login-container').querySelector('input').value 
         
-        let res = await fetch('http://localhost:4000/users', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        })
-            .then(res => res.json())
-            .catch(err => {
-                console.log('Catching error')
-                console.log(err)
-            })
-            
+        if(name === null || name === "")
+            console.log('Field is empty')
+        
+        else {
 
-        console.log(res)
+            let res = await fetch('http://localhost:4000/users/' + name, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(res => res.json())
+                .catch(err => {
+                    console.log('Catching error')
+                    console.log(err)
+                })
+                
+
+            console.log(res)
+        }
+    }
+
+    create = async () => {
+        let name = document.getElementById('login-container').querySelector('input').value
+
+        if(name === null || name === "")
+            console.log('The field is empty')
+        
+        else {
+            let res = await fetch('http://localhost:4000/users/' + name, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .catch(err => {
+                    console.log('Catching error')
+                    console.log(err)
+                })
+
+            console.log(res)
+        }
     }
 
 }
