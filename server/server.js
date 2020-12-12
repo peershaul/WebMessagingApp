@@ -3,7 +3,6 @@ const cors = require('cors')
 const fs = require('fs');
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
-const { send } = require('process');
 
 const app = express();
 
@@ -57,30 +56,31 @@ app.post('/users/:name', (req, res) => {
     let check = false 
     const urlName = req.params.name 
     users.forEach(user => {
-        if(user.name === urlName)
+        if(user.name === urlName.trim())
             check = true
     })
 
     if(check)
         res.status(400).json({message: 'user is already created', name: urlName})
-    
-    let id;
-    do{
-        check = false
-        id = Math.floor(Math.random() * 100) + 1 
-        users.forEach(user => {
-            if(user.id === id)
-                check = true
-        }) 
-    } while(check)
+    else {
+        let id;
+        do{
+            check = false
+            id = Math.floor(Math.random() * 100) + 1 
+            users.forEach(user => {
+                if(user.id === id)
+                    check = true
+            }) 
+        } while(check)
 
-    let user = {
-        name: urlName,
-        id: id
+        let user = {
+            name: urlName,
+            id: id
+        }
+
+        users.push(user)
+        res.status(201).json({message: 'User was successfully created', user: user})
     }
-
-    users.push(user)
-    res.status(201).json({message: 'User was successfully created', user: user})
 })
 
 function init(){
