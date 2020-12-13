@@ -1,6 +1,6 @@
-#!/bin/bash 
+#!/bin/bash
 
-cd ./client 
-npm start 
+cd ./client
+npm start
 cd ../server
 npm start

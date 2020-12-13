@@ -42,9 +42,17 @@ app.get('/users/:name', (req, res) => {
     console.log(`requested user: ${req.params.name}`)
 
     if(selected === null)
-        res.status(404).json({message: 'The user was not found', name: req.params.name})
+        res.status(404).json({
+            message: 'The user was not found', 
+            name: req.params.name,
+            error: true  
+        })
 
-    res.status(200).json({message: 'The user is found', user: selected})
+    res.status(200).json({
+        message: 'The user is found', 
+        user: selected,
+        error: false
+    })
 })
 
 app.get('/users', (req, res, next) => {
@@ -53,17 +61,22 @@ app.get('/users', (req, res, next) => {
 
 
 app.post('/users/:name', (req, res) => {
-    let check = false 
+    let found = null
     const urlName = req.params.name 
     users.forEach(user => {
         if(user.name === urlName.trim())
-            check = true
+            found = user 
     })
 
-    if(check)
-        res.status(400).json({message: 'user is already created', name: urlName})
+    if(found !== null)
+        res.status(400).json({
+            message: 'user is already created',
+            name: urlName,
+            user: found,
+            error: true 
+        })
     else {
-        let id;
+        let id, check;
         do{
             check = false
             id = Math.floor(Math.random() * 100) + 1 
@@ -79,7 +92,11 @@ app.post('/users/:name', (req, res) => {
         }
 
         users.push(user)
-        res.status(201).json({message: 'User was successfully created', user: user})
+        res.status(201).json({
+            message: 'User was successfully created',
+            user: user,
+            error: false 
+        })
     }
 })
 

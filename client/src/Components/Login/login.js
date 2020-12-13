@@ -38,8 +38,7 @@ class Login extends Component{
                         value = {this.state.username}
                         onChange = {this.fieldChange}
                         onFocus = {this.fieldFocus}
-                        onBlur = {this.fieldBlur}
-                        onKeyUp = {this.fieldEnter}></input>
+                        onBlur = {this.fieldBlur}></input>
                     <button className = 'login' onClick = {this.login}>Login</button>
                     <button className = 'sign-up' onClick = {this.create}>Create new user</button>
                 </div>
@@ -90,6 +89,8 @@ class Login extends Component{
                 
 
             console.log(res)
+            if(!res.error)
+                this.move()
         }
     }
 
@@ -114,7 +115,15 @@ class Login extends Component{
                 })
 
             console.log(res)
+
+            if(!res.error)
+                this.move()
         }
+    }
+
+
+    move = () => {
+        this.props.setter(pages.message)
     }
 
 }
