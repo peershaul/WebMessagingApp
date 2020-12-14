@@ -1,0 +1,68 @@
+#header {
+  background-color: #2b682b;
+  height: 10vh;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 20px;
+}
+
+#header .username {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: .75px;
+}
+
+#header .username::before {
+  content: 'signed in as: ';
+}
+
+#header .navicon {
+  height: 40px;
+  width: 40px;
+  position: relative;
+  cursor: pointer;
+}
+
+#header .navicon div {
+  height: 2px;
+  width: 30px;
+  background-color: white;
+  margin: 2px auto;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  left: 50%;
+}
+
+#header .navicon div:first-child {
+  top: 30%;
+}
+
+#header .navicon div:last-child {
+  top: 60%;
+}
+
+#header .navicon.active div {
+  top: 50%;
+}
+
+#header .navicon.active div:first-child {
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#header .navicon.active div:last-child {
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+}
+/*# sourceMappingURL=header.css.map */

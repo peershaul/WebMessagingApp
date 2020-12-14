@@ -8,7 +8,7 @@ class App extends Component{
 
   constructor(){
     super();
-    this.state = {page: pages.login}
+    this.state = {page: pages.message}
   }
 
   pageSwitcher(){

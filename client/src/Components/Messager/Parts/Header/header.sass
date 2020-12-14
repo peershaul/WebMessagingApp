@@ -1,0 +1,42 @@
+#header
+    background-color: #2b682b
+    height: 10vh
+    position: relative
+    display: flex 
+    align-items: center 
+    justify-content: space-between
+    padding: 20px
+    .username 
+        font: 
+            size: 18px
+            weight: bold
+        letter-spacing: .75px
+        &::before 
+            content: 'signed in as: '
+    .navicon
+        height: 40px
+        width: 40px
+        position: relative
+        cursor: pointer
+        div 
+            height: 2px
+            width: 30px
+            background-color: white
+            margin: 2px auto
+            position: absolute
+            transform: translate(-50%, -50%)
+            transition: all .5s
+            left: 50%
+            &:first-child
+                top: 30%
+            &:last-child
+                top: 60%
+        &.active 
+            div 
+                top: 50%
+                &:first-child
+                    transform: translate(-50%, -50%) rotate(45deg)
+                &:last-child
+                    transform: translate(-50%, -50%) rotate(-45deg)
+
+                 

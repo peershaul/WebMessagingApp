@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import Header from './Parts/Header/header'
+import Menu from './Parts/Menu/menu'
 
 
 class Messager extends Component {
@@ -10,24 +12,17 @@ class Messager extends Component {
                 name: 'peershaul'
             },
         }
+
+        this.menu = React.createRef()
     }
 
     render(){
         return (
-            <div>
-                <header>
-                    <h3 className = 'username'>{this.state.user.name}</h3>
-                </header>
-                <div className = 'messages-conatiner'>
-                    <div className = 'message sent'>
-                        <p>hello world</p>
-                        <span className = 'time'>12:40 PM</span>
-                    </div>
-                </div>
-                <div className = 'message-field'>
-                    <input type = 'text' placeholder = 'write a message'></input>
-                    <button className = 'send'>Send</button>
-                </div>
+            <div id = "messager">
+                <Header menu = {this.menu.current} />
+                <Menu ref = {this.menu} />
+                {/* MESSAGE VIEWER*/}
+                {/* MESSAGE POST INPUT*/}
             </div>
         )
     }
