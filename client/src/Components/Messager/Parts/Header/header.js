@@ -9,7 +9,6 @@ class Header extends Component {
     }
 
     render(){
-        console.log(this.props.menu)
         return(
             <div id = 'header'>
                 <div className = 'username'>Username</div>
@@ -26,6 +25,7 @@ class Header extends Component {
     naviconClick = event => {
         const navicon = event.target.closest('.navicon')
         navicon.classList.toggle('active')
+        this.props.menu()
     }
 }
 

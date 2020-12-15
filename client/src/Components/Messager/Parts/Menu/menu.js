@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './menu.css'
 
 class Menu extends Component {
     constructor(){
@@ -10,22 +11,33 @@ class Menu extends Component {
         this.rendered = false;
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         this.updateUsers();
-        this.toggle()
     }
 
     render(){
+
+        let list = [];
+        for(let i = 0; i < this.state.users.length; i++)
+        {
+            const user = this.state.users[i]
+            list.push(<li key = {'us-' + user.name} className = {'user us-' + user.id}>
+                <span>{user.name}</span>
+            </li>)
+        }
+
         return(
-            <div className = "menu" ref = {this.menu}>
-                
+            <div className = "menu active" ref = {this.menu}>
+                <ul>
+                    {list}
+                </ul>
             </div>
         )
     }
 
-    updateUsers = () => {
+    updateUsers = async () => {
 
-        fetch('http://localhost:4000/users/', {
+        await fetch('http://localhost:4000/users/', {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -34,16 +46,19 @@ class Menu extends Component {
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 this.setState({users: data})
+
             })
             .catch(err => {
                 console.log('Catching error')
                 console.log(err)
             })
+        
+        this.render()
     }
 
     toggle = () => {
+        this.updateUsers()
         const menu = this.menu.current
         menu.classList.toggle('active')
     }

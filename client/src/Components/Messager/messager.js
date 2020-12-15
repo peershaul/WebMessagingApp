@@ -19,13 +19,18 @@ class Messager extends Component {
     render(){
         return (
             <div id = "messager">
-                <Header menu = {this.menu.current} />
+                <Header menu = {this.toggleMenu} />
                 <Menu ref = {this.menu} />
                 {/* MESSAGE VIEWER*/}
                 {/* MESSAGE POST INPUT*/}
             </div>
         )
     }
+
+    toggleMenu = () => {
+        this.menu.current.toggle()
+    }
+
 } 
 
 

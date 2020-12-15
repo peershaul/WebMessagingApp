@@ -12,20 +12,7 @@ class Login extends Component{
         this.state = {
             username: '',
         }
-
-        // this.init()
     }
-
-    /*async init(){
-        const jsonData = await fetch('../../../../ProgramData/data.json')
-            .then(response =>  response.json())
-
-        console.log(jsonData)
-        
-        
-
-        this.url = "localhost:4000"
-    }*/
 
     render(){
         return(
