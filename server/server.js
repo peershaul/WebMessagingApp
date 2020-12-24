@@ -8,7 +8,7 @@ const app = express();
 
 let urlParser = bodyParser.urlencoded({ extended: false })
 
-let port;
+let port, users, errorCodes;
 
 app.use(express.json())
 app.use(morgan('common'))
@@ -21,19 +21,19 @@ app.use((req, res, next) => {
     next()
 })
 
-let users = [
-    {id: 1, name: 'default'}
-]
-
 
 app.get('/', (req, res, next) => {
     res.status(200).send({message: "This is the homepage of my API, Hello there"})
 })
 
 
+app.get('/codes', (req, res) => {
+    res.status(200).json({ErrorCodes: errorCodes})
+})
+
+
 app.get('/users/:name', (req, res) => {
     let selected = null
-    console.log("here i amm")
     users.forEach(user => {
         if(user.name === req.params.name)
             selected = user
@@ -45,13 +45,15 @@ app.get('/users/:name', (req, res) => {
         res.status(404).json({
             message: 'The user was not found', 
             name: req.params.name,
-            error: true  
+            error: true,
+            code: errorCodes[1].code 
         })
 
     res.status(200).json({
         message: 'The user is found', 
         user: selected,
-        error: false
+        error: false,
+        code: errorCodes[0].code
     })
 })
 
@@ -73,7 +75,8 @@ app.post('/users/:name', (req, res) => {
             message: 'user is already created',
             name: urlName,
             user: found,
-            error: true 
+            error: true,
+            code: errorCodes[2].code
         })
     else {
         let id, check;
@@ -95,7 +98,8 @@ app.post('/users/:name', (req, res) => {
         res.status(201).json({
             message: 'User was successfully created',
             user: user,
-            error: false 
+            error: false,
+            code: errorCodes[0].code 
         })
     }
 })
@@ -104,6 +108,9 @@ function init(){
     const jsonPort = JSON.parse(fs.readFileSync('../ProgramData/data.json'))
 
     port = process.env.PORT || jsonPort['network']['port']
+
+    users = jsonPort['users']
+    errorCodes = jsonPort['ErrorCodes']
 }
 
 init()
@@ -111,3 +118,15 @@ init()
 app.listen(port, () => {
     console.log(`Listening on port ${port}.....`)
 })
+
+/* let users = [
+    {id: 1, name: 'default'},
+    {id: 40, name: 'computer'},
+    {id: 29, name: 'peershaul'}
+]
+
+const ErrorCodes = [
+    {code: 0, description: 'Success!'},
+    {code: 1, description: 'User does not found'},
+    {code: 2, description: 'User already exist'},
+] */

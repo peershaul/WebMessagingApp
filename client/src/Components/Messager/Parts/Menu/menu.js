@@ -37,9 +37,10 @@ class Menu extends Component {
 
     updateUsers = async () => {
 
-        await fetch('http://localhost:4000/users/', {
+        await fetch('http://localhost:4000/users/', { // 192.168.1.13 current IP address
                 method: 'GET',
                 mode: 'cors',
+                credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json'
                 },

@@ -77,7 +77,20 @@
   position: relative;
 }
 
-#login-container span::before {
+#login-container #error-message {
+  background-color: #f009;
+  min-width: 50%;
+  max-width: 75%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 10px auto;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+#login-container #error-message::before {
   content: '';
   display: block;
   position: absolute;
@@ -88,7 +101,7 @@
   bottom: 0;
 }
 
-#login-container span.focus {
+#login-container #error-message.focus {
   color: #fff;
 }
 

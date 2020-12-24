@@ -8,10 +8,23 @@ class Login extends Component{
     url = null;
 
     constructor(){
+
         super();
+
         this.state = {
-            username: '',
+            username: ''
         }
+
+        this.errorMessage = React.createRef()
+        this.readErrors()
+    }
+
+
+    async readErrors(){
+        let resp = await fetch('http://localhost:4000/codes')
+            .then(response => response.json())
+
+        this.errorCodes = resp.ErrorCodes 
     }
 
     render(){
@@ -26,7 +39,8 @@ class Login extends Component{
                         onChange = {this.fieldChange}
                         onFocus = {this.fieldFocus}
                         onBlur = {this.fieldBlur}></input>
-                    <button className = 'login' onClick = {this.login}>Login</button>
+                    <p id = 'error-message' style = {{display: 'none'}}></p>
+                    <button className = 'login' onClick = {this.login} >Login</button>
                     <button className = 'sign-up' onClick = {this.create}>Create new user</button>
                 </div>
             </div>
@@ -73,12 +87,29 @@ class Login extends Component{
                     console.log('Catching error')
                     console.log(err)
                 })
-                
 
             console.log(res)
+                
             if(!res.error)
-                this.move()
+                this.move(res.user)
+            else 
+                this.errorHandler(res)
         }
+    }
+
+
+    errorHandler = res => {
+        let message = null;
+        for (let i = 0; i < this.errorCodes.length; i++)
+            if(res.code === this.errorCodes[i].code)
+                message = this.errorCodes[i].description
+
+        if(message === null)
+            message = 'Unknown Error'
+
+        const errorMessage = document.getElementById('error-message')
+        errorMessage.style.display = 'block'
+        errorMessage.innerHTML = message
     }
 
     create = async () => {
@@ -101,15 +132,16 @@ class Login extends Component{
                     console.log(err)
                 })
 
-            console.log(res)
-
             if(!res.error)
-                this.move()
+                this.move(res.user)
+            else 
+                this.errorHandler(res)
         }
     }
 
 
-    move = () => {
+    move = user => {
+        this.props.setUser(user)
         this.props.setter(pages.message)
     }
 

@@ -8,7 +8,7 @@ class App extends Component{
 
   constructor(){
     super();
-    this.state = {page: pages.message}
+    this.state = {page: pages.message, user: null}
   }
 
   pageSwitcher(){
@@ -16,10 +16,10 @@ class App extends Component{
 
     switch(this.state.page){
       case pages.login: 
-        page = <Login setter = {this.pageChanger}/>
+        page = <Login setter = {this.pageChanger} setUser = {this.setUser} />
         break
       case pages.message:
-        page = <Messager setter = {this.pageChanger}/>
+        page = <Messager setter = {this.pageChanger} user = {this.state.user} />
         break
       default:
         page = <h1>Error page not found, page number: {this.state.page}</h1>
@@ -38,7 +38,9 @@ class App extends Component{
 
   pageChanger = (num) => {
     this.setState({page: num})
-  } 
+  }
+  
+  setUser = user => this.setState({user: user}) 
 }
 
 export const pages = {

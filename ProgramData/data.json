@@ -2,5 +2,16 @@
     "network" : {
         "port" : 4000,
         "url" : "http://localhost"
-    }
+    },
+
+    "users" : [
+        {"id": 1,  "name": "default"},
+        {"id": 40, "name": "computer"},
+        {"id": 29, "name": "peershaul"} 
+    ],
+    "ErrorCodes" : [
+        {"code": 0, "description": "Success!"},
+        {"code": 1, "description": "User does not found"},
+        {"code": 2, "description": "User already exist"}
+    ]
 }
